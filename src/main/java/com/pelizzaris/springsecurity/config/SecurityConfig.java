@@ -39,6 +39,8 @@ public class SecurityConfig {
        http.authorizeHttpRequests(authorize -> authorize
                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                       .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
+                       .requestMatchers(HttpMethod.GET, "/user/all").hasRole("ADMIN")
                        .requestMatchers(HttpMethod.GET, "/test/hello").permitAll()
                        .anyRequest().authenticated())
                .csrf(csrf -> csrf.disable())
