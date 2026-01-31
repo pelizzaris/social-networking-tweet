@@ -34,7 +34,7 @@ public class AdminUserConfig implements CommandLineRunner {
 
         userAdmin.ifPresentOrElse(
                 user -> {
-                    System.out.println("\nUsuário admin já existe.\n");
+                    System.out.println("\nUsuário admin já existe.");
                 },
                 () -> {
                     var user = new User();

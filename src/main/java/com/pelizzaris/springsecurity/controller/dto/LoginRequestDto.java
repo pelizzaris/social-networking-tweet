@@ -1,6 +1,6 @@
 package com.pelizzaris.springsecurity.controller.dto;
 
-public record LoginRequest(
+public record LoginRequestDto(
         String email,
         String password) {
 }

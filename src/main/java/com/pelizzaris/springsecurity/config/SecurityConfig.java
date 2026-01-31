@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -25,6 +26,7 @@ import java.security.interfaces.RSAPublicKey;
 
 @Configuration
 @EnableWebSecurity
+@EnableMethodSecurity
 public class SecurityConfig {
 
     @Value("${jwt.public.key}")
@@ -40,7 +42,10 @@ public class SecurityConfig {
                        .dispatcherTypeMatchers(DispatcherType.ERROR).permitAll()
                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                        .requestMatchers(HttpMethod.POST, "/user/create").permitAll()
-                       .requestMatchers(HttpMethod.GET, "/user/all").hasRole("ADMIN")
+                       .requestMatchers(HttpMethod.GET, "/user/all").hasAuthority("SCOPE_ADMIN")
+                       .requestMatchers(HttpMethod.GET, "/tweet/create").hasAuthority("SCOPE_ADMIN, SCOPE_BASIC")
+                       .requestMatchers(HttpMethod.GET, "/tweet/delete").hasAuthority("SCOPE_ADMIN, SCOPE_BASIC")
+                       .requestMatchers(HttpMethod.GET, "/tweet/all").permitAll()
                        .requestMatchers(HttpMethod.GET, "/test/hello").permitAll()
                        .anyRequest().authenticated())
                .csrf(csrf -> csrf.disable())
